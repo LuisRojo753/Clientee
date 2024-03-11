@@ -1,0 +1,40 @@
+package cliente.servidor;
+import java.net.*;
+import java.io.*;
+/**
+ *
+ * @author monte
+ */
+public class Conector {
+    //Variables del socket
+    ServerSocket server;
+    Socket socket;
+    int puerto=8080;
+    DataOutputStream salida;
+    BufferedReader entrada;
+    public void iniciar(){
+        try{
+            //Creacion del Socket
+            server=new ServerSocket(puerto);
+            socket=new Socket();
+            //Conexion
+            socket=server.accept();
+            //Creacion de la entrada
+            entrada=new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            //Lectura de la entrada
+            String mensaje=entrada.readLine();
+            //Impresion de la entrada
+            System.out.println(mensaje);
+            //Creacion de la salida
+            salida=new DataOutputStream(socket.getOutputStream());
+            //Impresion de la salida
+            salida.writeUTF("Accion Terminada");
+            //Cerrar socket
+            socket.close();
+
+        }catch(Exception e){
+            System.out.println("Algo ah salido mal");
+        }
+    
+    }
+}
